@@ -5,17 +5,27 @@ const Movie = () => {
   const [movie, setMovie] = useState({});
   let { id } = useParams();
 
-  useEffect(() => {
-    let myMovie = {
-      id: 1,
-      title: "Highlander",
-      release_date: "1986-03-07",
-      runtime: 116,
-      mpaa_rating: "R",
-      description: "Some long description",
+  useState(() => {
+    const headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    const requestOptions = {
+      method: "GET",
+      headers: headers,
     };
-    setMovie(myMovie);
+    fetch(`movies/${id}`, requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        setMovie(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, [id]);
+  if (movie.genres) {
+    movie.genres = Object.values(movie.genres);
+  } else {
+    movie.genres = [];
+  }
   return (
     <div>
       <h2>{movie.title}</h2>
@@ -24,7 +34,20 @@ const Movie = () => {
           {movie.release_date},{movie.runtime} minutes,Rated{movie.mpaa_rating}
         </em>
       </small>
+      {movie.genres.map((g) => (
+        <span key={g.genre} className="badge bg-seconday me-2">
+          {g.genre}
+        </span>
+      ))}
       <hr />
+      {movie.image !== "" && (
+        <div className="mb-3">
+          <img
+            src={`https://image.tmdb.org/t/p/w200/${movie.image}`}
+            alt="poster"
+          />
+        </div>
+      )}
       <p>{movie.description}</p>
     </div>
   );
