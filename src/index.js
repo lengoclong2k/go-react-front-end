@@ -11,6 +11,7 @@ import Login from "./components/Login";
 import ManageCatalogue from "./components/ManageCatalogue";
 import Movies from "./components/Movies";
 import Movie from "./components/Movie";
+import OneGenre from "./components/OneGenre";
 
 const router = createBrowserRouter([
   {
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
         path: "/login",
         element: <Login />,
       },
+      {
+        path: "/genres/:id",
+        element: <OneGenre />,
+      }
     ],
   },
 ]);

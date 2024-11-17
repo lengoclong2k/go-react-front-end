@@ -19,7 +19,7 @@ const ManageCatalogue = () => {
       method: "GET",
       headers: headers,
     };
-    fetch(`/admin/movies`, requestOptions)
+    fetch(`${process.env.REACT_APP_BACKEND}/admin/movies`, requestOptions)
       .then((response) => response.json())
       .then((data) => {
         setMovies(data);
